@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Raw data (too large for GitHub)
+data/raw/*
+!data/raw/.gitkeep
+.DS_Store
+anaconda_projects/
