@@ -85,6 +85,14 @@ For a developer evaluating a job offer:
 
 The model is less reliable for very high or very low salaries and in Eastern and Southern Europe, so treat its predictions there with extra care.
 
+## Salary calculator app
+
+I turned the final model into a small Streamlit app. You fill in your profile (country, experience, role and whether you manage people are required, everything else is optional) and it shows the typical salary for your profile with a range of about ±20%, in EUR or USD. If you enter a job offer, it tells you whether the offer is below, within or above that range.
+
+![Salary calculator app](images/app.png)
+
+The app uses the saved model and the same preparation steps as notebook 03; I checked that it gives exactly the same predictions as the notebook for all 1,486 people in the test set.
+
 ## Limitations
 
 - Only valid for employed professional developers in Europe, not for freelancers or other regions.
@@ -106,6 +114,8 @@ developer-salary-prediction/
 │   ├── 02_eda_statistics.ipynb
 │   └── 03_modeling.ipynb
 ├── slides/
+├── app.py                    # Streamlit app (interface)
+├── backend.py                # Streamlit app (model loading and prediction)
 ├── requirements.txt
 └── README.md
 ```
@@ -127,9 +137,14 @@ developer-salary-prediction/
 2. The cleaned data is already in `data/processed/`, so notebooks 02 and 03 can be run directly.
 3. To run notebook 01 as well, download the 2025 results from the [Stack Overflow survey page](https://survey.stackoverflow.co/) (the raw file is too large for GitHub) and save them in `data/raw/` as `survey_results_2025.csv` and `survey_schema_2025.csv`.
 4. Run the notebooks in order, from the `notebooks/` folder. Notebook 03 takes a few minutes because of the tuning.
+5. To start the salary calculator, run this from the repository folder:
+   ```bash
+   streamlit run app.py
+   ```
 
 ## Next steps
 
-- A small `src/predict.py` that loads the saved model and predicts the salary for a new profile, as a first step toward a salary calculator app.
-- Show a range instead of a single number, so users see how uncertain a prediction is.
+- Publish the app online with Streamlit Community Cloud, so anyone can use it with a link.
+- A range based on the typical error of each country (9% in Finland, 26% in Poland) instead of a fixed 20%.
+- More currencies (GBP, CHF, PLN...).
 - Add earlier survey years to have more data, especially for small countries.
