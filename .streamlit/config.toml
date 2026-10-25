@@ -1,0 +1,19 @@
+[theme]
+base = "light"
+primaryColor = "#1D3F8F"
+backgroundColor = "#F7F8FA"
+secondaryBackgroundColor = "#ECEFF4"
+textColor = "#14213D"
+borderColor = "#D9DEE7"
+font = "IBM Plex Sans:https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap, sans-serif"
+headingFontWeights = [600, 600, 600]
+metricValueFontSize = "2.4rem"
+baseRadius = "small"
+chartCategoricalColors = ["#1D3F8F", "#D9A400", "#7A8699", "#C2462E", "#3E7C6B"]
+
+[theme.sidebar]
+backgroundColor = "#14213D"
+secondaryBackgroundColor = "#22345C"
+textColor = "#E8ECF3"
+primaryColor = "#F2C230"
+borderColor = "#2E416B"

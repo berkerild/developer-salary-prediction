@@ -3,9 +3,17 @@
 Run from the repository folder with:  streamlit run app.py
 """
 import streamlit as st
-from backend import load_model, get_options, predict_salary, EUR_TO_USD, TYPICAL_ERROR
+from backend import (load_model, get_options, predict_salary, EUR_TO_USD, TYPICAL_ERROR,
+                     DEMO_OFFER, DEMO_PROFILE)
+
+from style import section_title
 
 NOT_SPECIFIED = "Not specified"
+
+
+def position(choices, value):
+    """Place of value in the list, so the page opens with the profile from page 1 (0 if missing)."""
+    return choices.index(value) if value in choices else 0
 
 
 def optional(label, choices):
@@ -15,23 +23,23 @@ def optional(label, choices):
 
 
 def main():
-    st.title("Developer Salary Check")
-    st.write("Is your job offer fair? Fill in your profile on the left to see the typical "
-             "annual salary for developers like you in Europe.")
+    section_title("Is this offer fair? Let's check.")
+    st.write("Fill in your profile on the left to see the typical annual salary for "
+             "developers like you in Europe.")
 
     model, prep = load_model()
     options = get_options(prep)
 
-    # Required fields
-    # ---------------
     st.sidebar.header("Your profile")
-    country = st.sidebar.selectbox("Country", sorted(options["Country"]))
-    work_exp = st.sidebar.slider("Years of professional work experience", 0, 50, 5)
-    dev_type = st.sidebar.selectbox("Role", sorted(options["DevType"]))
+    countries = sorted(options["Country"])
+    roles = sorted(options["DevType"])
+    country = st.sidebar.selectbox("Country", countries,
+                                   index=position(countries, DEMO_PROFILE["Country"]))
+    work_exp = st.sidebar.slider("Years of professional work experience", 0, 50,
+                                 DEMO_PROFILE["WorkExp"])
+    dev_type = st.sidebar.selectbox("Role", roles, index=position(roles, DEMO_PROFILE["DevType"]))
     manager = st.sidebar.radio("Do you manage people?", ["Individual contributor", "Manager"])
 
-    # Optional fields
-    # ---------------
     st.sidebar.header("Optional")
     ed_level = optional("Education", options["EdLevel"])
     org_size = optional("Company size (employees)", options["OrgSize"])
@@ -49,14 +57,10 @@ def main():
         "Age": age, "YearsCode": years_code, "Languages": languages,
     }
 
-    # Currency and offer
-    # ------------------
     currency = st.radio("Currency", ["EUR", "USD"], horizontal=True)
     offer = st.number_input(f"Your offer (annual, {currency}, optional)", min_value=0,
-                            value=None, step=1000, placeholder="e.g. 60000")
+                            value=DEMO_OFFER, step=1000, placeholder="e.g. 60000")
 
-    # Prediction
-    # ----------
     salary_usd = predict_salary(profile, model, prep)
     rate = EUR_TO_USD if currency == "EUR" else 1
     salary = salary_usd / rate
