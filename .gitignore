@@ -222,3 +222,5 @@ data/raw/*
 !data/raw/.gitkeep
 .DS_Store
 anaconda_projects/
+.agents/
+.claude/
