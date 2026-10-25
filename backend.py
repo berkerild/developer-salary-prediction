@@ -85,6 +85,14 @@ def manager_gap_by_experience():
     return table.dropna()
 
 
+def manager_overall_eur():
+    """Overall median salary in EUR for managers and individual contributors."""
+    df = load_data()
+    medians = df.groupby("ICorPM")["ConvertedCompYearly"].median() / EUR_TO_USD
+    return medians.reset_index().rename(
+        columns={"ICorPM": "role", "ConvertedCompYearly": "median_eur"})
+
+
 def get_options(prep):
     """Lists of choices for the input fields, taken from the training data."""
     encoder = prep["encoder"]
