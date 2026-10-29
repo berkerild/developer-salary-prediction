@@ -141,10 +141,3 @@ developer-salary-prediction/
    ```bash
    streamlit run app.py
    ```
-
-## Next steps
-
-- Publish the app online with Streamlit Community Cloud, so anyone can use it with a link.
-- A range based on the typical error of each country (9% in Finland, 26% in Poland) instead of a fixed 20%.
-- More currencies (GBP, CHF, PLN...).
-- Add earlier survey years to have more data, especially for small countries.
